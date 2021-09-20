@@ -1,0 +1,16 @@
+monitoring:
+  network:
+    latency:
+      host: "google.com"
+      port: 80
+      network-timeout_sec: 1
+      update-interval_sec: 10
+      max-latency-metric-count: 10
+      latency-unit: "ms"
+      jitter-unit: "ms"
+    bandwidth:
+      update-interval_sec: 10
+      receive-bandwidth-unit: "Bps"
+      transmit-bandwidth-unit: "Bps"
+      receive-packet-unit: "Pps"
+      transmit-packet-unit: "Pps"
