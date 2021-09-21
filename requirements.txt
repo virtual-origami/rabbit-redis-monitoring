@@ -1,0 +1,9 @@
+bittivahti==0.9.3
+click==8.0.1
+httplib2==0.19.1
+numpy==1.21.2
+pyparsing==2.4.7
+pyrabbit==1.1.0
+PyYAML==5.4.1
+redis==3.5.3
+tcp-latency==0.0.10

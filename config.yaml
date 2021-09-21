@@ -1,16 +1,64 @@
 monitoring:
   network:
     latency:
-      host: "google.com"
-      port: 80
+      enable: False
+      connection:
+        host: "google.com"
+        port: 80
+      interfaces:
+        - "wlp6s0"
+        - "eth0"
       network-timeout_sec: 1
-      update-interval_sec: 10
+      update-interval_sec: 1
       max-latency-metric-count: 10
-      latency-unit: "ms"
-      jitter-unit: "ms"
+      units:
+        latency: "ms"
+        jitter: "ms"
+      metrics:
+        - 'latency'
+        - 'jitter'
     bandwidth:
-      update-interval_sec: 10
-      receive-bandwidth-unit: "Bps"
-      transmit-bandwidth-unit: "Bps"
-      receive-packet-unit: "Pps"
-      transmit-packet-unit: "Pps"
+      enable: False
+      update-interval_sec: 1
+      units:
+        receive-bandwidth: "bps"
+        transmit-bandwidth: "bps"
+        receive-packet: "Pps"
+        transmit-packet: "Pps"
+      metrics:
+        - 'receive-bandwidth'
+        - 'transmit-bandwidth'
+        - 'receive-packet'
+        - 'transmit-packet'
+  rabbitmq:
+    enable: True
+    connection:
+      host: 'rabbitmq'
+      port: 15672
+      username: "admin"
+      password: "rabbit"
+    update-interval_sec: 1
+    queues:
+      - 'generator_robot_rk'
+      - 'generator_personnel_rk'
+      - 'control_robot_rk'
+      - 'plm_walker_rk'
+      - 'rmt_robot_rk'
+    overview-metrics:
+      - 'rates_mode'
+      - 'sample_retention_policies'
+    queue-metrics:
+      - 'messages_ready_details'
+      - 'auto_delete'
+      - 'name'
+  redis:
+    enable: True
+    connection:
+      host: "redis"
+      port: 6379
+      username: "admin"
+      password: "rabbit"
+    update-interval_sec: 1
+    metrics:
+      - 'redis_version'
+      - 'db0'
