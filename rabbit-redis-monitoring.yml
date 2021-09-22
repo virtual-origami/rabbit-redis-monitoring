@@ -1,0 +1,17 @@
+version: "3"
+
+services:
+    rabbit_redis_monitoring:
+        image: virtualorigami/rabbit-redis-monitoring:stateless 
+        container_name: rabbit_redis_monitoring
+        volumes:
+            - ./config.yaml:/rabbit_redis_monitoring/config.yaml:ro
+        networks:
+            - "iotstack"
+    
+volumes:
+    redis_data:
+
+networks:
+    iotstack:
+        external: true
