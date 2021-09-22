@@ -45,12 +45,12 @@ monitoring:
       - 'plm_walker_rk'
       - 'rmt_robot_rk'
     overview-metrics:
-      - 'rates_mode'
-      - 'sample_retention_policies'
+      # - 'rates_mode'
+      # - 'sample_retention_policies'
     queue-metrics:
-      - 'messages_ready_details'
-      - 'auto_delete'
-      - 'name'
+      # - 'messages_ready_details'
+      # - 'auto_delete'
+      # - 'name'
   redis:
     enable: True
     connection:
@@ -60,5 +60,5 @@ monitoring:
       password: "rabbit"
     update-interval_sec: 1
     metrics:
-      - 'redis_version'
-      - 'db0'
+      # - 'redis_version'
+      # - 'db0'
