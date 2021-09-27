@@ -69,12 +69,14 @@ async def app(eventloop, config):
             logger.error('Error while reading configuration:')
             logger.error(e)
             break
-
+        measurement_read_interval_sec = metric_monitor_config['measurement-read-interval_sec']
         metric_monitor = Metrics(config=metric_monitor_config)
+        await metric_monitor.start()
 
         # continuously monitor signal handle and update robot motion
         while not is_sighup_received:
             print(f'{await metric_monitor.measure()}')
+            await asyncio.sleep(measurement_read_interval_sec)
 
         # If SIGHUP Occurs, Delete the instances
         _graceful_shutdown()

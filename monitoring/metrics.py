@@ -18,6 +18,11 @@ class Metrics:
         self.rabbitmq_metric = RabbitmqMetric(config=config["rabbitmq"])
         self.redis_metric = RedisMetric(config=config["redis"])
 
+    async def start(self):
+        await self.network_metric.start()
+        await self.rabbitmq_metric.start()
+        await self.redis_metric.start()
+
     async def measure(self):
         """
         measure metric in 3 categories

@@ -1,16 +1,14 @@
 monitoring:
+  measurement-read-interval_sec: 10
   network:
     latency:
-      enable: False
+      enable: True
       connection:
         host: "google.com"
         port: 80
-      interfaces:
-        - "wlp6s0"
-        - "eth0"
-      network-timeout_sec: 1
-      update-interval_sec: 1
-      max-latency-metric-count: 10
+      network-timeout_sec: 5
+      update-interval_sec: 10
+      min-metric-count-for-averaging: 2
       units:
         latency: "ms"
         jitter: "ms"
@@ -18,8 +16,11 @@ monitoring:
         - 'latency'
         - 'jitter'
     bandwidth:
-      enable: False
-      update-interval_sec: 1
+      enable: True
+      interfaces:
+        - "wlp6s0"
+        - "eth0"
+      update-interval_sec: 10
       units:
         receive-bandwidth: "bps"
         transmit-bandwidth: "bps"
@@ -33,11 +34,11 @@ monitoring:
   rabbitmq:
     enable: True
     connection:
-      host: 'rabbitmq'
+      host: 'localhost'
       port: 15672
       username: "admin"
       password: "rabbit"
-    update-interval_sec: 1
+    update-interval_sec: 10
     queues:
       - 'generator_robot_rk'
       - 'generator_personnel_rk'
@@ -54,11 +55,11 @@ monitoring:
   redis:
     enable: True
     connection:
-      host: "redis"
+      host: "localhost"
       port: 6379
       username: "admin"
       password: "rabbit"
-    update-interval_sec: 1
+    update-interval_sec: 10
     metrics:
       # - 'redis_version'
       # - 'db0'
