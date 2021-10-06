@@ -93,3 +93,15 @@ __NOTE__: The `redis` stack needs an external docker network called `iotstack` m
    $ docker run --rm -v $(pwd)/config.yaml:/monitoring/config.yaml --network=iotstack -t monitoring:<version> -c config.yaml
    ```
 
+## Maintainers
+The repository is maintained by:
+
+- [Karthik Shenoy Panambur](mailto:she@biba.uni-bremen.de)
+- [Shantanoo Desai](mailto:des@biba.uni-bremen.de)
+
+[__BIBA - Bremer Institut für Produktion und Logistik GmbH__](www.biba.uni-bremen.de)
+
+## FUNDING
+
+* The development of this codebase and repository is driven through the [RAINBOW Project](https://rainbow-h2020.eu/). RAINBOW Project has received funding from the European Union’s Horizon 2020 programme under grant agreement number __871403__
+* The development of this codebase and repository is driven through the [ASSURED Project](https://www.project-assured.eu/). ASSURED project is funded by the European Union's Horizon 2020 programme under Grant Agreement number __952697__
