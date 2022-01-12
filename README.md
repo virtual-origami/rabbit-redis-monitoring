@@ -31,6 +31,9 @@ This repository is a python module for monitoring following
 
    ```bash
    $ pip install -r requirements.txt
+   
+   # Install Rainbow Monitoring SDK
+   $ pip install --no-cache-dir --use-deprecated=legacy-resolver RainbowMonitoringSDK
    ```
 
 4. Install `monitoring` as python package for development:

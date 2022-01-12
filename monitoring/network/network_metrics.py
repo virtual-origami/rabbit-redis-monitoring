@@ -4,6 +4,7 @@ import logging
 from .LatencyJitter import LatencyJitter
 from .Bandwidth import Bandwidth
 
+
 logger = logging.getLogger("monitoring:network")
 logging.basicConfig(stream=sys.stdout,
                     level=logging.DEBUG,
@@ -32,3 +33,4 @@ class NetworkMetrics:
         except Exception as e:
             logging.critical(e)
             sys.exit(-1)
+
