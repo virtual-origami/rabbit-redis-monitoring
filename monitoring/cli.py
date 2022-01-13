@@ -31,9 +31,6 @@ env_pattern = re.compile(r".*?\${(.*?)}.*?")
 def env_constructor(loader, node):
     value = loader.construct_scalar(node)
     for group in env_pattern.findall(value):
-        if os.environ.get(group) is None:
-            logger.error('No environment group found')
-            sys.exit()
         value = value.replace(f"${{{group}}}", os.environ.get(group))
     return value
 
