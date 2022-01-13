@@ -15,6 +15,7 @@ COPY . /monitoring
 
 # install monitoring here as a python package
 RUN pip3 install .
+RUN python3 -m pip install --upgrade pip
 RUN pip3 install --no-cache-dir --use-deprecated=legacy-resolver RainbowMonitoringSDK
 # USER monitoring is commented to fix the bug related to permission
 # USER monitoring
