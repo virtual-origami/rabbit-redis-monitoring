@@ -1,5 +1,7 @@
 monitoring:
   measurement-read-interval_sec: 10
+  health_server:
+    port: "9012"
   network:
     latency:
       enable: False

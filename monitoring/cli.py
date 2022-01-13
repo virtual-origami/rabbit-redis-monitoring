@@ -8,6 +8,7 @@ import sys
 import yaml
 import logging
 from monitoring.metrics import Metrics
+from monitoring.health import HealthServer
 
 logging.basicConfig(level=logging.DEBUG, format='%(levelname)-8s [%(filename)s:%(lineno)d] %(message)s')
 
@@ -86,6 +87,10 @@ async def app(eventloop, config):
             logger.error('Error while reading configuration:')
             logger.error(e)
             break
+
+        # health server
+        health_server = HealthServer(config=metric_monitor_config["health_server"], event_loop=eventloop)
+        eventloop.create_task(health_server.server_loop())
 
         metric_monitor_read_rate = metric_monitor_config["measurement-read-interval_sec"]
         metric_monitor = Metrics(config=metric_monitor_config)
