@@ -48,14 +48,14 @@ class Metrics:
                         'redis': redis_metric,
                     }
                 }
-            await self.send_to_monitoring_service(metric=measurements)
+            self.send_to_monitoring_service(metric=measurements)
             return json.dumps(measurements)
         except Exception as e:
             logging.critical(e)
             sys.exit(-1)
 
     @staticmethod
-    async def send_to_monitoring_service(metric):
+    def send_to_monitoring_service(metric):
         if "latency" in metric.keys():
             if "average_latency" in metric['latency'].keys():
                 RainbowUtils.store(float(metric["latency"]["average_latency"]),

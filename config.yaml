@@ -33,10 +33,10 @@ monitoring:
   rabbitmq:
     enable: True
     connection:
-      host: 'localhost'
+      host: ${RABBITMQ}
       port: 15672
-      username: "admin"
-      password: "rabbit"
+      username: ${RABBITMQ_USERNAME}
+      password: ${RABBITMQ_PASSWORD}
     update-interval_sec: 10
     queues:
       - 'generator_robot_rk'
@@ -54,10 +54,10 @@ monitoring:
   redis:
     enable: True
     connection:
-      host: "localhost"
+      host: ${REDIS}
       port: 6379
       username: "admin"
-      password: "rabbit"
+      password: ${REDIS_PASSWORD}
     update-interval_sec: 10
     metrics:
       # - 'redis_version'

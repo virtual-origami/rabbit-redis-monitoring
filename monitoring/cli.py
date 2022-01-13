@@ -22,6 +22,20 @@ logger.addHandler(handler)
 is_sighup_received = False
 metric_monitor = None
 
+# YAML configuration to read Environment Variables in Configuration File
+env_pattern = re.compile(r".*?\${(.*?)}.*?")
+
+
+def env_constructor(loader, node):
+    value = loader.construct_scalar(node)
+    for group in env_pattern.findall(value):
+        value = value.replace(f"${{{group}}}", os.environ.get(group))
+    return value
+
+
+yaml.add_implicit_resolver("!pathex", env_pattern)
+yaml.add_constructor("!pathex", env_constructor)
+
 
 def _graceful_shutdown():
     global metric_monitor
