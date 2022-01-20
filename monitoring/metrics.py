@@ -56,7 +56,7 @@ class Metrics:
 
     @staticmethod
     def send_to_monitoring_service(metric):
-        logger.debug(f'CALL: =============== send_to_monitoring_service ==========================')
+        logger.debug(f'CALL: =============== send_to_monitoring_service V.1 ==========================')
         logger.debug(f'Metric: Keys: {metric["metrics"].keys()}')
         for items in metric["metrics"].keys():
             logger.debug(f'Metric: {items}: keys: {metric["metrics"][items].keys()}')
