@@ -56,8 +56,11 @@ class Metrics:
 
     @staticmethod
     def send_to_monitoring_service(metric):
+        logger.debug(f'CALL: =============== send_to_monitoring_service ==========================')
         if "latency" in metric.keys():
+            logger.debug(f'RAINBOW: Network: Latency: {metric["latency"]}')
             if "average_latency" in metric['latency'].keys():
+                logger.debug(f'RAINBOW: Network :average_latency: {metric["latency"]["average_latency"]}')
                 RainbowUtils.store(float(metric["latency"]["average_latency"]),
                                    'network_average_latency',
                                    metric["latency"]["units"]["latency"],
@@ -65,6 +68,7 @@ class Metrics:
                                    minVal=0,
                                    higherIsBetter=False)
             if "jitter" in metric['latency'].keys():
+                logger.debug(f'RAINBOW: Network :jitter: {metric["latency"]["jitter"]}')
                 RainbowUtils.store(float(metric["latency"]["jitter"]),
                                    'network_jitter',
                                    metric["latency"]["units"]["jitter"],
@@ -73,6 +77,7 @@ class Metrics:
                                    higherIsBetter=False)
         if "bandwidth" in metric.keys():
             if "receive-bandwidth" in metric['bandwidth'].keys():
+                logger.debug(f'RAINBOW: Network: receive-bandwidth: {metric["bandwidth"]["receive-bandwidth"]}')
                 RainbowUtils.store(float(metric["bandwidth"]["receive-bandwidth"]),
                                    'network_receive_bandwidth',
                                    metric["bandwidth"]["units"]["receive-bandwidth"],
@@ -80,6 +85,7 @@ class Metrics:
                                    minVal=0,
                                    higherIsBetter=False)
             if "transmit-bandwidth" in metric['bandwidth'].keys():
+                logger.debug(f'RAINBOW: Network: transmit-bandwidth: {metric["bandwidth"]["transmit-bandwidth"]}')
                 RainbowUtils.store(float(metric["bandwidth"]["transmit-bandwidth"]),
                                    'network_transmit_bandwidth',
                                    metric["bandwidth"]["units"]["transmit-bandwidth"],
@@ -88,6 +94,7 @@ class Metrics:
                                    higherIsBetter=False)
         if "redis" in metric.keys():
             if "total_system_memory" in metric['redis'].keys():
+                logger.debug(f'RAINBOW: Redis: total_system_memory:{metric["redis"]["total_system_memory"]}')
                 RainbowUtils.store(float(metric["redis"]["total_system_memory"]),
                                    'total_system_memory',
                                    'bytes',
@@ -95,6 +102,7 @@ class Metrics:
                                    minVal=0,
                                    higherIsBetter=False)
             if "used_memory" in metric['redis'].keys():
+                logger.debug(f'RAINBOW: Redis: used_memory:{metric["redis"]["used_memory"]}')
                 RainbowUtils.store(float(metric["redis"]["used_memory"]),
                                    'used_memory',
                                    'bytes',
@@ -104,6 +112,8 @@ class Metrics:
 
         if "rabbitmq_queues" in metric.keys():
             for rabbit_q in metric["rabbitmq_queues"]:
+                logger.debug(f'RAINBOW: Rabbitmq: name: {rabbit_q["messages_ready_details"]["name"]} : '
+                             f'rate:{float(rabbit_q["messages_ready_details"]["rate"])}')
                 RainbowUtils.store(float(rabbit_q["messages_ready_details"]["rate"]),
                                    rabbit_q["messages_ready_details"]["name"],
                                    'messages/second',

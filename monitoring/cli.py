@@ -97,7 +97,7 @@ async def app(eventloop, config):
 
         # continuously monitor signal handle and update robot motion
         while not is_sighup_received:
-            print(f'{await metric_monitor.measure()}')
+            await metric_monitor.measure()
             await asyncio.sleep(metric_monitor_read_rate)
 
         # If SIGHUP Occurs, Delete the instances
