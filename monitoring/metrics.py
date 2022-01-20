@@ -58,9 +58,6 @@ class Metrics:
     def send_to_monitoring_service(metric):
         logger.debug(f'CALL: =============== send_to_monitoring_service V.1 ==========================')
         logger.debug(f'Metric: Keys: {metric["metrics"].keys()}')
-        for items in metric["metrics"].keys():
-            if metric["metrics"][items] is not None:
-                logger.debug(f'Metric: {items}: keys: {metric["metrics"][items].keys()}')
 
         if 'network' in metric['metrics'].keys():
             if "latency" in metric['metrics']['network'].keys():
