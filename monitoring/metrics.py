@@ -57,8 +57,12 @@ class Metrics:
     @staticmethod
     def send_to_monitoring_service(metric):
         logger.debug(f'CALL: =============== send_to_monitoring_service ==========================')
-        logger.debug(f'Metric: Keys: {metric.keys()}')
-        if "latency" in metric.keys():
+        logger.debug(f'Metric: Keys: {metric["metrics"].keys()}')
+        logger.debug(f'Metric: network: keys: {metric["metrics"]["network"].keys()}')
+        logger.debug(f'Metric: redis: keys: {metric["metrics"]["redis"].keys()}')
+        logger.debug(f'Metric: rabbitmq-queues: keys: {metric["metrics"]["rabbitmq-queues"].keys()}')
+
+        if "latency" in metric['metrics']['network'].keys():
             logger.debug(f'RAINBOW: Network: Latency: {metric["latency"]}')
             if "average_latency" in metric['latency'].keys():
                 logger.debug(f'RAINBOW: Network :average_latency: {metric["latency"]["average_latency"]}')
@@ -76,7 +80,7 @@ class Metrics:
                                    'network jitter',
                                    minVal=0,
                                    higherIsBetter=False)
-        if "bandwidth" in metric.keys():
+        if "bandwidth" in metric['metrics']['network'].keys():
             if "receive-bandwidth" in metric['bandwidth'].keys():
                 logger.debug(f'RAINBOW: Network: receive-bandwidth: {metric["bandwidth"]["receive-bandwidth"]}')
                 RainbowUtils.store(float(metric["bandwidth"]["receive-bandwidth"]),
@@ -93,7 +97,7 @@ class Metrics:
                                    'receive bandwidth',
                                    minVal=0,
                                    higherIsBetter=False)
-        if "redis" in metric.keys():
+        if "redis" in metric['metrics'].keys():
             if "total_system_memory" in metric['redis'].keys():
                 logger.debug(f'RAINBOW: Redis: total_system_memory:{metric["redis"]["total_system_memory"]}')
                 RainbowUtils.store(float(metric["redis"]["total_system_memory"]),
@@ -110,8 +114,7 @@ class Metrics:
                                    'used memory',
                                    minVal=0,
                                    higherIsBetter=False)
-
-        if "rabbitmq_queues" in metric.keys():
+        if "rabbitmq_queues" in metric['metrics'].keys():
             for rabbit_q in metric["rabbitmq_queues"]:
                 logger.debug(f'RAINBOW: Rabbitmq: name: {rabbit_q["messages_ready_details"]["name"]} : '
                              f'rate:{float(rabbit_q["messages_ready_details"]["rate"])}')
