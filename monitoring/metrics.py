@@ -103,13 +103,15 @@ class Metrics:
                                        minVal=0,
                                        higherIsBetter=False)
 
-        if "rabbitmq_queues" in metric['metrics'].keys():
-            for rabbit_q in metric['metrics']["rabbitmq_queues"]:
-                logger.debug(f'RAINBOW: Rabbitmq: name: {rabbit_q["messages_ready_details"]["name"]} : '
-                             f'rate:{float(rabbit_q["messages_ready_details"]["rate"])}')
-                RainbowUtils.store(float(rabbit_q["messages_ready_details"]["rate"]),
-                                   rabbit_q["messages_ready_details"]["name"],
-                                   'messages/second',
-                                   'message rate',
-                                   minVal=0,
-                                   higherIsBetter=False)
+        if "rabbitmq-queues" in metric['metrics'].keys():
+            rabbitmq_queues = metric['metrics']["rabbitmq-queues"]
+            if rabbitmq_queues is not None:
+                for rabbit_q in rabbitmq_queues:
+                    logger.debug(f'RAINBOW: Rabbitmq: name: {rabbit_q["name"]} : '
+                                 f'rate:{float(rabbit_q["messages_ready_details"]["rate"])}')
+                    RainbowUtils.store(float(rabbit_q["messages_ready_details"]["rate"]),
+                                       rabbit_q["name"],
+                                       'messages/second',
+                                       'message rate',
+                                       minVal=0,
+                                       higherIsBetter=False)
