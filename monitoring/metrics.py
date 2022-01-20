@@ -58,9 +58,8 @@ class Metrics:
     def send_to_monitoring_service(metric):
         logger.debug(f'CALL: =============== send_to_monitoring_service ==========================')
         logger.debug(f'Metric: Keys: {metric["metrics"].keys()}')
-        logger.debug(f'Metric: network: keys: {metric["metrics"]["network"].keys()}')
-        logger.debug(f'Metric: redis: keys: {metric["metrics"]["redis"].keys()}')
-        logger.debug(f'Metric: rabbitmq-queues: keys: {metric["metrics"]["rabbitmq-queues"].keys()}')
+        for items in metric["metrics"].keys():
+            logger.debug(f'Metric: {items}: keys: {metric["metrics"][items].keys()}')
 
         if "latency" in metric['metrics']['network'].keys():
             logger.debug(f'RAINBOW: Network: Latency: {metric["latency"]}')
