@@ -57,6 +57,7 @@ class Metrics:
     @staticmethod
     def send_to_monitoring_service(metric):
         logger.debug(f'CALL: =============== send_to_monitoring_service ==========================')
+        logger.debug(f'Metric: Keys: {metric.keys()}')
         if "latency" in metric.keys():
             logger.debug(f'RAINBOW: Network: Latency: {metric["latency"]}')
             if "average_latency" in metric['latency'].keys():
