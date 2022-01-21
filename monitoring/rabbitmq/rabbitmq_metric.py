@@ -54,9 +54,10 @@ class RabbitmqMetric:
                             for queue_information in queues_information:
                                 if queue_information['name'] == queue_name:
                                     info = {}
-                                    for each in queue_information.keys():
-                                        if each in self.queue_metrics:
-                                            info.update({each: queue_information[each]})
+                                    if 'name' in queue_information.keys():
+                                        info.update({'name': queue_information['name']})
+                                    if 'message_stats' in queue_information.keys():
+                                        info.update({'message_stats': queue_information['message_stats']})
                                     res.append(info)
                                     break
                     else:

@@ -107,11 +107,24 @@ class Metrics:
             rabbitmq_queues = metric['metrics']["rabbitmq-queues"]
             if rabbitmq_queues is not None:
                 for rabbit_q in rabbitmq_queues:
-                    logger.debug(f'RAINBOW: Rabbitmq: name: {rabbit_q["name"]} : '
-                                 f'rate:{float(rabbit_q["messages_ready_details"]["rate"])}')
-                    RainbowUtils.store(float(rabbit_q["messages_ready_details"]["rate"]),
-                                       rabbit_q["name"],
-                                       'messages/second',
-                                       'message rate',
-                                       minVal=0,
-                                       higherIsBetter=False)
+                    if 'name' in rabbit_q.keys():
+                        queue_name = rabbit_q["name"]
+                        logger.debug(f'RAINBOW: Rabbitmq: name: {rabbit_q["name"]} : rate:{rabbit_q["message_stats"]}')
+                        if 'publish_details' in rabbit_q["message_stats"].keys():
+                            if 'rate' in rabbit_q["message_stats"]['publish_details'].keys():
+                                msg_rate = rabbit_q["message_stats"]['publish_details']["rate"]
+                                RainbowUtils.store(float(msg_rate),
+                                                   queue_name,
+                                                   'messages/second',
+                                                   'publish_rate',
+                                                   minVal=0,
+                                                   higherIsBetter=False)
+                        if 'deliver_details' in rabbit_q["message_stats"].keys():
+                            if 'rate' in rabbit_q["message_stats"]['deliver_details'].keys():
+                                msg_rate = rabbit_q["message_stats"]['deliver_details']["rate"]
+                                RainbowUtils.store(float(msg_rate),
+                                                   queue_name,
+                                                   'messages/second',
+                                                   'deliver_rate',
+                                                   minVal=0,
+                                                   higherIsBetter=False)

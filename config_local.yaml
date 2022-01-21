@@ -1,0 +1,66 @@
+monitoring:
+  measurement-read-interval_sec: 10
+  health_server:
+    port: "9012"
+  network:
+    latency:
+      enable: False
+      connection:
+        host: "google.com"
+        port: 80
+      network-timeout_sec: 5
+      update-interval_sec: 10
+      min-metric-count-for-averaging: 2
+      units:
+        latency: "ms"
+        jitter: "ms"
+      metrics:
+        - 'latency'
+        - 'jitter'
+    bandwidth:
+      enable: True
+      interfaces:
+        - "wlp3s0"
+      update-interval_sec: 10
+      units:
+        receive-bandwidth: "bps"
+        transmit-bandwidth: "bps"
+        receive-packet: "Pps"
+        transmit-packet: "Pps"
+      metrics:
+        - 'receive-bandwidth'
+        - 'transmit-bandwidth'
+        - 'receive-packet'
+        - 'transmit-packet'
+  rabbitmq:
+    enable: True
+    connection:
+      host: ${RABBITMQ}
+      port: 15672
+      username: ${RABBITMQ_USERNAME}
+      password: ${RABBITMQ_PASSWORD}
+    update-interval_sec: 10
+    queues:
+      - 'generator_robot_rk'
+      - 'generator_personnel_rk'
+      - 'control_robot_rk'
+      - 'plm_walker_rk'
+      - 'rmt_robot_rk'
+    overview-metrics:
+       - 'rates_mode'
+       - 'sample_retention_policies'
+    queue-metrics:
+       - 'messages_ready_details'
+       - 'auto_delete'
+       - 'name'
+  redis:
+    enable: True
+    connection:
+      host: ${REDIS}
+      port: 6379
+      username: "admin"
+      password: ${REDIS_PASSWORD}
+    update-interval_sec: 10
+    metrics:
+      # - 'redis_version'
+      # - 'db0'
