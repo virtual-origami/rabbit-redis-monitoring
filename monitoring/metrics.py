@@ -70,7 +70,7 @@ class Metrics:
                         RainbowUtils.store(float(latency_dict["average_latency"]),
                                            'network_average_latency',
                                            latency_dict["units"]["latency"],
-                                           'network latency',
+                                           'network_average_latency',
                                            minVal=0,
                                            higherIsBetter=False)
 
@@ -89,17 +89,17 @@ class Metrics:
                 if "total_system_memory" in redis_dict.keys():
                     logger.debug(f'RAINBOW: Redis: total_system_memory:{redis_dict["total_system_memory"]}')
                     RainbowUtils.store(float(redis_dict["total_system_memory"]),
-                                       'total_system_memory',
+                                       'redis_total_system_memory',
                                        'bytes',
-                                       'total system memory',
+                                       'redis_total system memory',
                                        minVal=0,
                                        higherIsBetter=False)
                 if "used_memory" in redis_dict.keys():
                     logger.debug(f'RAINBOW: Redis: used_memory:{redis_dict["used_memory"]}')
                     RainbowUtils.store(float(redis_dict["used_memory"]),
-                                       'used_memory',
+                                       'redis_used_memory',
                                        'bytes',
-                                       'used memory',
+                                       'redis_used_memory',
                                        minVal=0,
                                        higherIsBetter=False)
 
@@ -108,23 +108,26 @@ class Metrics:
             if rabbitmq_queues is not None:
                 for rabbit_q in rabbitmq_queues:
                     if 'name' in rabbit_q.keys():
-                        queue_name = rabbit_q["name"]
-                        logger.debug(f'RAINBOW: Rabbitmq: name: {rabbit_q["name"]} : rate:{rabbit_q["message_stats"]}')
+                        pub_metric_name = rabbit_q["name"] + "_pub_rate"
+                        deliver_metric_name = rabbit_q["name"] + "_deliver_rate"
+                        # logger.debug(f'RAINBOW: Rabbitmq: name: {rabbit_q["name"]} : rate:{rabbit_q["message_stats"]}')
                         if 'publish_details' in rabbit_q["message_stats"].keys():
                             if 'rate' in rabbit_q["message_stats"]['publish_details'].keys():
                                 msg_rate = rabbit_q["message_stats"]['publish_details']["rate"]
+                                logger.debug(f"{pub_metric_name}: {msg_rate}")
                                 RainbowUtils.store(float(msg_rate),
-                                                   queue_name,
+                                                   pub_metric_name,
                                                    'messages/second',
-                                                   'publish_rate',
+                                                   'Rabbit mq publish_rate',
                                                    minVal=0,
                                                    higherIsBetter=False)
                         if 'deliver_details' in rabbit_q["message_stats"].keys():
                             if 'rate' in rabbit_q["message_stats"]['deliver_details'].keys():
                                 msg_rate = rabbit_q["message_stats"]['deliver_details']["rate"]
+                                logger.debug(f"{deliver_metric_name}: {msg_rate}")
                                 RainbowUtils.store(float(msg_rate),
-                                                   queue_name,
+                                                   deliver_metric_name,
                                                    'messages/second',
-                                                   'deliver_rate',
+                                                   'Rabbit mq deliver_rate',
                                                    minVal=0,
                                                    higherIsBetter=False)
