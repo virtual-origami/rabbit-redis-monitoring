@@ -1,6 +1,8 @@
 import sys
 import queue
 import json
+import traceback
+
 from monitoring.network import NetworkMetrics
 from monitoring.rabbitmq import RabbitmqMetric
 from monitoring.redis import RedisMetric
@@ -52,6 +54,7 @@ class Metrics:
             return json.dumps(measurements)
         except Exception as e:
             logging.critical(e)
+            traceback.format_exc()
             sys.exit(-1)
 
     @staticmethod
@@ -110,24 +113,25 @@ class Metrics:
                     if 'name' in rabbit_q.keys():
                         pub_metric_name = rabbit_q["name"] + "_pub_rate"
                         deliver_metric_name = rabbit_q["name"] + "_deliver_rate"
-                        # logger.debug(f'RAINBOW: Rabbitmq: name: {rabbit_q["name"]} : rate:{rabbit_q["message_stats"]}')
-                        if 'publish_details' in rabbit_q["message_stats"].keys():
-                            if 'rate' in rabbit_q["message_stats"]['publish_details'].keys():
-                                msg_rate = rabbit_q["message_stats"]['publish_details']["rate"]
-                                logger.debug(f"{pub_metric_name}: {msg_rate}")
-                                RainbowUtils.store(float(msg_rate),
-                                                   pub_metric_name,
-                                                   'messages/second',
-                                                   'Rabbit mq publish_rate',
-                                                   minVal=0,
-                                                   higherIsBetter=False)
-                        if 'deliver_details' in rabbit_q["message_stats"].keys():
-                            if 'rate' in rabbit_q["message_stats"]['deliver_details'].keys():
-                                msg_rate = rabbit_q["message_stats"]['deliver_details']["rate"]
-                                logger.debug(f"{deliver_metric_name}: {msg_rate}")
-                                RainbowUtils.store(float(msg_rate),
-                                                   deliver_metric_name,
-                                                   'messages/second',
-                                                   'Rabbit mq deliver_rate',
-                                                   minVal=0,
-                                                   higherIsBetter=False)
+                        if 'message_stats' in rabbit_q.keys():
+                            # logger.debug(f'RAINBOW: Rabbitmq: name: {rabbit_q["name"]} : rate:{rabbit_q["message_stats"]}')
+                            if 'publish_details' in rabbit_q["message_stats"].keys():
+                                if 'rate' in rabbit_q["message_stats"]['publish_details'].keys():
+                                    msg_rate = rabbit_q["message_stats"]['publish_details']["rate"]
+                                    logger.debug(f"{pub_metric_name}: {msg_rate}")
+                                    RainbowUtils.store(float(msg_rate),
+                                                       pub_metric_name,
+                                                       'messages/second',
+                                                       'Rabbit mq publish_rate',
+                                                       minVal=0,
+                                                       higherIsBetter=False)
+                            if 'deliver_details' in rabbit_q["message_stats"].keys():
+                                if 'rate' in rabbit_q["message_stats"]['deliver_details'].keys():
+                                    msg_rate = rabbit_q["message_stats"]['deliver_details']["rate"]
+                                    logger.debug(f"{deliver_metric_name}: {msg_rate}")
+                                    RainbowUtils.store(float(msg_rate),
+                                                       deliver_metric_name,
+                                                       'messages/second',
+                                                       'Rabbit mq deliver_rate',
+                                                       minVal=0,
+                                                       higherIsBetter=False)
