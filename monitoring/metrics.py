@@ -114,7 +114,7 @@ class Metrics:
                         pub_metric_name = rabbit_q["name"] + "_pub_rate"
                         deliver_metric_name = rabbit_q["name"] + "_deliver_rate"
                         if 'message_stats' in rabbit_q.keys():
-                            # logger.debug(f'RAINBOW: Rabbitmq: name: {rabbit_q["name"]} : rate:{rabbit_q["message_stats"]}')
+                            logger.debug(f'RAINBOW: Rabbitmq: name: {rabbit_q["name"]} : rate:{rabbit_q["message_stats"]}')
                             if 'publish_details' in rabbit_q["message_stats"].keys():
                                 if 'rate' in rabbit_q["message_stats"]['publish_details'].keys():
                                     msg_rate = rabbit_q["message_stats"]['publish_details']["rate"]
